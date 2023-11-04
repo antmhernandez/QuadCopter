@@ -1,0 +1,67 @@
+#include <NewPing.h>
+
+#define TRIGGER_PIN 12
+#define ECHO_PIN 11
+
+#define CLOSE_DISTANCE_THRESHOLD 20  // Define the close distance threshold in centimeters
+#define FAR_DISTANCE_THRESHOLD 50    // Define the far distance threshold in centimeters
+#define READINGS_TO_AVERAGE 5       // Number of readings to average before changing LED state
+
+NewPing sonar(TRIGGER_PIN, ECHO_PIN);
+
+int closeLedPin = 3;  // Digital pin for the "too close" LED
+int farLedPin = 4;    // Digital pin for the "far enough" LED
+
+void setup() {
+  Serial.begin(9600);
+  pinMode(closeLedPin, OUTPUT);
+  pinMode(farLedPin, OUTPUT);
+}
+
+void controlLEDs(int distance, int &previousDistance, int &sameDistanceCount) {
+  if (distance < CLOSE_DISTANCE_THRESHOLD) {
+    digitalWrite(farLedPin, LOW);
+    if (distance == previousDistance) {
+      sameDistanceCount++;
+    } else {
+      sameDistanceCount = 0;
+    }
+    if (sameDistanceCount >= READINGS_TO_AVERAGE) {
+      digitalWrite(closeLedPin, HIGH);
+    } else {
+      digitalWrite(closeLedPin, LOW);
+    }
+  } else if (distance >= CLOSE_DISTANCE_THRESHOLD && distance > FAR_DISTANCE_THRESHOLD) {
+    digitalWrite(closeLedPin, LOW);
+    if (distance == previousDistance) {
+      sameDistanceCount++;
+    } else {
+      sameDistanceCount = 0;
+    }
+    if (sameDistanceCount >= READINGS_TO_AVERAGE) {
+      digitalWrite(farLedPin, HIGH);
+    } else {
+      digitalWrite(farLedPin, LOW);
+    }
+  } else {
+    digitalWrite(closeLedPin, LOW);
+    digitalWrite(farLedPin, LOW);
+    sameDistanceCount = 0;
+  }
+  previousDistance = distance;
+}
+
+void loop() {
+  delay(2500);  // Delay for 2.5 seconds between measurements
+
+  static int previousDistance = 0;
+  static int sameDistanceCount = 0;
+
+  unsigned int distance = sonar.ping_cm();  // Measure distance in centimeters
+  Serial.print("Distance: ");
+  Serial.print(distance);
+  Serial.println(" cm");
+
+  // Call the controlLEDs function to handle LED control
+  controlLEDs(distance, previousDistance, sameDistanceCount);
+}
