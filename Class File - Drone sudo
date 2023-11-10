@@ -1,0 +1,31 @@
+
+class drone
+{
+  int distance; //record distance from proximity sensor
+
+
+  //Receive data from joystick: Radio Transmission
+    joystickLeft(power, yaw);
+    jotstickRight(pitch, roll);
+        Left             Right    Center: (512,512)
+        1023              1023 
+        y:power            y:pitch
+    x:0--yaw---1023    x:0--roll--1023
+         0                  0
+    //RightJoystick controls x-y axes, pitch and roll
+    //Left Joystick controls power and yaw
+
+
+  //Control 4 Motors
+    
+  //Read Gyroscope
+
+  //Read Distance/Proximity Sensor(s)
+    //Read distance 5 times. Return common value in cm.
+  proximity(distance);
+
+  //LED Indicator Lights
+
+  //Measure Battery Voltage
+
+}
