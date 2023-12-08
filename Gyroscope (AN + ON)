@@ -1,0 +1,116 @@
+#include <Wire.h>
+
+#define L3G4200D_ADDR 0x69 // I2C address for L3G4200D
+
+// Register addresses
+#define CTRL_REG1 0x20
+#define OUT_X_L   0x28
+#define OUT_X_H   0x29
+#define OUT_Y_L   0x2A
+#define OUT_Y_H   0x2B
+#define OUT_Z_L   0x2C
+#define OUT_Z_H   0x2D
+
+// Gyroscope sensitivity (adjust based on datasheet)
+#define GYRO_SENSITIVITY 0.00875 // Example: 250 degrees per second sensitivity
+
+// Time variables
+unsigned long previousTime = 0;
+float elapsedTime = 0;
+
+// Initial angles
+float angleX = 0;
+float angleY = 0;
+float angleZ = 0;
+
+// Constant values to subtract per second
+float subtractValueX = 0.057;
+float subtractValueY = 0.119;
+float subtractValueZ = -0.102;
+float correctValueX, correctValueY, correctValueZ;
+
+void setup() {
+  Serial.begin(9600);
+  Wire.begin();
+
+  // Initialize the gyroscope
+  initializeGyroscope();
+}
+
+void loop() {
+  // Calculate elapsed time
+  unsigned long currentTime = millis();
+  elapsedTime = (currentTime - previousTime) / 1000.0; // Convert to seconds
+  previousTime = currentTime;
+
+  // Read gyroscope data
+  int16_t gyroY = readGyroscopeData(OUT_X_L);
+  int16_t gyroX = readGyroscopeData(OUT_Y_L);
+  int16_t gyroZ = readGyroscopeData(OUT_Z_L);
+
+  // Convert raw data to degrees per second
+  float gyroX_dps = gyroX * GYRO_SENSITIVITY;
+  float gyroY_dps = gyroY * GYRO_SENSITIVITY;
+  float gyroZ_dps = gyroZ * GYRO_SENSITIVITY;
+
+  // Integrate angular velocity to obtain angular displacement
+  angleX += gyroX_dps * elapsedTime;
+  angleY += gyroY_dps * elapsedTime;
+  angleZ += gyroZ_dps * elapsedTime;
+
+  // Subtract constant values from X, Y, and Z every second
+  angleX -= subtractValueX * elapsedTime;
+  angleY -= subtractValueY * elapsedTime;
+  angleZ -= subtractValueZ * elapsedTime;
+
+  correctValueX = angleX*-1;
+  correctValueY = angleY*-1;
+  correctValueZ = angleZ*-1;
+
+  // Print angular displacement
+  Serial.print("Angle X: ");
+  Serial.print(angleX);
+  Serial.print("\tAngle Y: ");
+  Serial.print(angleY);
+  Serial.print("\tAngle Z: ");
+  Serial.print(angleZ);
+  Serial.print("\tFIX THE X:");
+  Serial.print(correctValueX);
+  Serial.print("\tFIX THE Y:");
+  Serial.print(correctValueY);
+  Serial.print("\tFIX THE Z:");
+  Serial.println(correctValueZ);
+
+  //delay(10);  // Adjust delay as needed
+}
+
+void initializeGyroscope() {
+  // Set CTRL_REG1 to enable the gyroscope
+  writeToL3G4200D(CTRL_REG1, 0x0F);
+  delay(100); // Allow gyroscope to stabilize
+}
+
+int16_t readGyroscopeData(byte reg) {
+  // Read gyroscope data (16-bit signed value)
+  return (readFromL3G4200D(reg) | (readFromL3G4200D(reg + 1) << 8));
+}
+
+void writeToL3G4200D(byte reg, byte value) {
+  Wire.beginTransmission(L3G4200D_ADDR);
+  Wire.write(reg);
+  Wire.write(value);
+  Wire.endTransmission();
+}
+
+byte readFromL3G4200D(byte reg) {
+  Wire.beginTransmission(L3G4200D_ADDR);
+  Wire.write(reg);
+  Wire.endTransmission();
+
+  Wire.requestFrom(L3G4200D_ADDR, 1);
+  if (Wire.available()) {
+    return Wire.read();
+  }
+
+  return 0;
+}
