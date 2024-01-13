@@ -1,0 +1,58 @@
+this goes into the setup
+Baud rate=115200
+CoDrone.pair();
+CoDrone.takeoff(); //goes up and hovers for 3 seconds
+CoDrone.hover(2); //hovers for an additional 2 seconds
+  CoDrone.land(); //lands the CoDrone 
+CoDrone.emergencyStop(); // use with if statements with bytes typed in win the parameters of the if statement 
+
+movement
+
+CoDrone.setRoll(0);+right - left
+CoDrone.setPitch(0); - backwards + forwards
+CoDrone.setYaw(0); +clockwise - counterclockwise
+CoDrone.Throttle(0); +up -down
+num in () is speed must say CoDrone.move(); number in the () is for time in sec
+
+remote thingys
+
+CoDrone.Buzz(tone, length);makes noise
+must use byte for IR sensors
+
+timers 
+millis(); milliseconds
+micros(); microseconds
+
+ Drone LEDs
+setLED(R, G, B, Mode, Interval);
+setEyeLED
+: changes the eyes’ LEDs
+setArmLED
+: changes the arms’ LEDs
+setAllLED
+: changes the eyes’ and arms’ LEDs
+setEyeDefaultLED
+: changes the eyes’ LEDs to the default
+setArmDefaultLED
+: changes the arms’ LEDs to the default
+setAllDefaultLED
+: changes the eyes’ and arms’ LEDs to the default
+resetDefaultLED
+: resets your CoDrone’s LED
+
+setEyeLED
+: changes the eyes’ LEDs
+setArmLED
+: changes the arms’ LEDs
+setAllLED
+: changes the eyes’ and arms’ LEDs
+setEyeDefaultLED
+: changes the eyes’ LEDs to the default
+setArmDefaultLED
+: changes the arms’ LEDs to the default
+setAllDefaultLED
+: changes the eyes’ and arms’ LEDs to the default
+resetDefaultLED
+: resets your CoDrone’s LEDs
+
+
