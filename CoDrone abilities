@@ -2,9 +2,9 @@ this goes into the setup
 Baud rate=115200
 CoDrone.pair();
 CoDrone.takeoff(); //goes up and hovers for 3 seconds
-CoDrone.hover(2); //hovers for an additional 2 seconds
+CoDrone.hover(# of sec); 
   CoDrone.land(); //lands the CoDrone 
-CoDrone.emergencyStop(); // use with if statements with bytes typed in win the parameters of the if statement 
+CoDrone.emergencyStop(); // use with if statements with bytes typed in with the parameters of the if statement 
 
 movement
 
@@ -40,19 +40,11 @@ setAllDefaultLED
 resetDefaultLED
 : resets your CoDrone’s LED
 
-setEyeLED
-: changes the eyes’ LEDs
-setArmLED
-: changes the arms’ LEDs
-setAllLED
-: changes the eyes’ and arms’ LEDs
-setEyeDefaultLED
-: changes the eyes’ LEDs to the default
-setArmDefaultLED
-: changes the arms’ LEDs to the default
-setAllDefaultLED
-: changes the eyes’ and arms’ LEDs to the default
-resetDefaultLED
-: resets your CoDrone’s LEDs
-
-
+OFF: your LEDs are off
+SOLID: your LEDs are solid
+STROBE: your LEDs will flash a variety of colors
+BLINK: your LEDs will flicker at a steady rate
+DOUBLE_BLINK: your LEDs will flicker twice and then pause before repeating
+DIMMING: your LEDs will go from bright to dim and then back again
+PULSE: LEDs alternate between the front two arms and the back two arms
+REVERSE_PULSE: reverse of PULSE
