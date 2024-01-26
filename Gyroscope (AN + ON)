@@ -23,7 +23,7 @@ float angleX = 0;
 float angleY = 0;
 float angleZ = 0;
 
-// Constant values to subtract per second
+// Constant values to subtract per second to fix error/drifting. May conduct more stopwatch trials to make more accurate.
 float subtractValueX = 0.057;
 float subtractValueY = 0.119;
 float subtractValueZ = -0.102;
