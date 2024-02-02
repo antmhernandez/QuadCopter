@@ -1,9 +1,9 @@
 //Each variable w, x, y, and z will correspond to rotation, side-to-side movement, front-to-back movement, and throttle, respectively.
 
-#define VRX_PIN  A0 // Arduino pin connected to VRX pin
-#define VRY_PIN  A1 // Arduino pin connected to VRY pin
-#define VRZ_PIN  A2 // Arduino pin connected to VRZ pin
-#define VRW_PIN  A3 // Arduino pin connected to VRW pin
+#define VRY_PIN  A0 // Arduino pin connected to VRX pin
+#define VRX_PIN  A1 // Arduino pin connected to VRY pin
+#define VRW_PIN  A2 // Arduino pin connected to VRZ pin
+#define VRZ_PIN  A3 // Arduino pin connected to VRW pin
 
 //int wValue = 0;
 int xValue = 0; // To store value of the X axis
@@ -24,12 +24,12 @@ void loop() {
 
   // print data to Serial Monitor on Arduino IDE
   Serial.print("w = ");
-  Serial.print(wValue);
+  Serial.print(zValue);
   Serial.print(", x = ");
-  Serial.print(xValue);
-  Serial.print(", y = ");
   Serial.print(yValue);
+  Serial.print(", y = ");
+  Serial.print(xValue);
   Serial.print(", z= ");
-  Serial.println(zValue);
+  Serial.println(wValue);
   delay(200);
 }
