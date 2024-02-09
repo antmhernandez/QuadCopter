@@ -1,9 +1,9 @@
 //Each variable w, x, y, and z will correspond to rotation, side-to-side movement, front-to-back movement, and throttle, respectively.
 
-#define VRY_PIN  A0 // Arduino pin connected to VRX pin
-#define VRX_PIN  A1 // Arduino pin connected to VRY pin
-#define VRW_PIN  A2 // Arduino pin connected to VRZ pin
-#define VRZ_PIN  A3 // Arduino pin connected to VRW pin
+#define VRY_PIN  A0 // Arduino pin connected to VRY pin
+#define VRX_PIN  A1 // Arduino pin connected to VRX pin
+#define VRW_PIN  A2 // Arduino pin connected to VRW pin
+#define VRZ_PIN  A3 // Arduino pin connected to VRZ pin
 
 //int wValue = 0;
 int xValue = 0; // To store value of the X axis
@@ -33,3 +33,16 @@ void loop() {
   Serial.println(wValue);
   delay(200);
 }
+
+
+Wiring:
+Left joystick: GND -> GND
+               +5V -> 5V
+               VRX -> A2
+               VRY -> A3
+               SW -> 2
+Right joystick: GND -> GND
+                +5V -> 5V
+                VRX -> A1
+                VRY -> A0
+                SW -> 3
