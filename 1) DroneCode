@@ -1,1 +1,30 @@
 
+
+setup()
+{
+}
+
+loop()
+{
+
+}
+
+void servoFL()
+{
+  //speed value: 0 to 180
+  //direction: -1 or 1
+  //
+}
+
+bool radio(int[10])
+{
+  //read int array received from controller
+  //checksum and reply with handshake or false
+  return 
+  //drone, after receiving 5 consecutive falses, emits error indicator
+}
+
+void move(xSpeed, ySpeed, zSpeed)
+{
+}
+
