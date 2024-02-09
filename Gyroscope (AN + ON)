@@ -14,20 +14,20 @@
 // Gyroscope sensitivity (adjust based on datasheet)
 #define GYRO_SENSITIVITY 0.00875 // Example: 250 degrees per second sensitivity
 
+bool calibrate=false;
+
 // Time variables
 unsigned long previousTime = 0;
 float elapsedTime = 0;
+float totalTime=millis();
+
+float correctValueX, correctValueY, correctValueZ;
+float subtractValueX, subtractValueY, subtractValueZ;
 
 // Initial angles
 float angleX = 0;
 float angleY = 0;
 float angleZ = 0;
-
-// Constant values to subtract per second to fix error/drifting. May conduct more stopwatch trials to make more accurate.
-float subtractValueX = 0.057;
-float subtractValueY = 0.119;
-float subtractValueZ = -0.102;
-float correctValueX, correctValueY, correctValueZ;
 
 void setup() {
   Serial.begin(9600);
@@ -57,7 +57,13 @@ void loop() {
   angleX += gyroX_dps * elapsedTime;
   angleY += gyroY_dps * elapsedTime;
   angleZ += gyroZ_dps * elapsedTime;
-
+  if (totalTime>=1000 && calibrate==false)
+    {
+      subtractValueX=angleX/(totalTime/1000.0);
+      subtractValueY=angleY/(totalTime/1000.0);
+      subtractValueZ=angleZ/(totalTime/1000.0);
+      calibrate=true;
+    }
   // Subtract constant values from X, Y, and Z every second
   angleX -= subtractValueX * elapsedTime;
   angleY -= subtractValueY * elapsedTime;
@@ -114,6 +120,7 @@ byte readFromL3G4200D(byte reg) {
 
   return 0;
 }
+
 
 
 Wiring:
