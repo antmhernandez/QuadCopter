@@ -1,0 +1,45 @@
+Motor Servos take 0 - 180
+Joysticks output 0 - 1023, with 512 at 'center'
+
+Drone Motors:
+  FL      FR
+
+  BL      BR
+
+
+Joystick Outputs:
+  Throttle: 0 - 1023
+  Yaw:      0 - 1023
+
+  Pitch:    0 - 1023
+  Roll:     0 - 1023
+
+For example, a joystick command to give:
+JS1:  Full Throttle  (1023)
+      0 Yaw          (512)
+JS2:  Full Right     (1023)
+      Full Forward   (1023)
+For values T, Y, P, R,
+
+  FL                          FR
+1023-512 = 511 -> 180?
+512-512 = 0 -> 0
+
+
+
+"Dead Zone": Create 'senseless' region for thumb, more for throttle, less for yaw
+    Dead Yaw: 500 - 524
+    Dead Throttle: 475 - 550
+
+Auto-Balance: record total displacements x, y, z.
+    When Pitch/Roll Joystick is in "dead zone", apply motor power to undo net angular displacement.
+    Must account for offset Center of Gravity
+Trim Function:
+    Add trim function to self balance:
+        Self-Balance Trim must store values to trim in x, y, z angular directions.
+    Add button to manually trim. How to interact with auto-balance/trim?
+
+Limit Pitch and Roll:
+    Use gyroscope to record angular displacement. Limit to set max angular displacement in x, y, z
+    Use proportion to convert joystick value to acceptable range
+
