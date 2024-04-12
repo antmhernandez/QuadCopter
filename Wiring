@@ -1,0 +1,10 @@
+Motors
+- three wires plugged into end of esc with three female receptors
+- switching the order of these changes the rotation of the motor
+Esc
+-end with three female receptors plugs in to motors
+-two large wires connect directly to battery for power and ground
+-three small wires go into arduino 
+*white wire is output pin for arduino
+*black wire is ground for the output pin
+*red wire is power for the arduino
