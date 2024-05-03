@@ -23,13 +23,13 @@ void loop() {
   zValue = analogRead(VRZ_PIN);
 
   // print data to Serial Monitor on Arduino IDE
-  Serial.print("w = ");
+  Serial.print("yaw = ");
   Serial.print(zValue);
-  Serial.print(", x = ");
+  Serial.print(", roll = ");
   Serial.print(yValue);
-  Serial.print(", y = ");
+  Serial.print(", pitch = ");
   Serial.print(xValue);
-  Serial.print(", z= ");
+  Serial.print(", throttle= ");
   Serial.println(wValue);
   delay(200);
 }
