@@ -1,0 +1,112 @@
+float throttlePin = 0;  //in loop()
+float yawPin= 0;
+float rollPin = 0;
+float pitchPin = 0;
+//int flPower = fl(roll, pitch, yaw, throttle);
+//int frPower = fr(roll, pitch, yaw, throttle);
+//int blPower = bl(roll, pitch, yaw, throttle);
+//int brPower = br(roll, pitch, yaw, throttle);
+
+//Read Joystick Center Value when not pressed:
+int centerThrottle = analogRead(throttlePin); //read left 
+int centerYaw = analogRead (yawPin);
+int centerRoll = analogRead(rollPin);
+int centerPitch = analogRead(pitchPin);
+
+//Define variables to be calculated individually for each motor
+int throttleFL = 0, throttleFR = 0, throttleBL = 0, throttleBR = 0;
+int yawFL = 0, yawFR = 0, yawBL = 0, yawBR = 0;
+int rollFL = 0, rollFR = 0, rollBL = 0, rollBR = 0;
+int pitchFL = 0, pitchFR = 0, pitchBL = 0, pitchBR = 0;
+
+//Set Max values for Throttle, Yaw, Roll, and Pitch. Max sum = 180. Is this too high?!?!
+int maxThrottle = 90;
+int maxYaw = 30;
+int maxRoll = 30;    //Want this to incline 30 degrees. Same for all power levels?
+int maxPitch = 30;   //This should incline quadcopter 30 degrees. Is this the same at all motors at 0 power and all at 150 power?
+
+//int center = 512;
+//int deadWidth = 24;
+
+int fl()
+{
+  int powerFL = 0;
+  if(throttlePin > (centerThrottle)) //If center moving, add "dead zone."  +deadWidth/2))
+    throttleFL = (throttlePin - (centerThrottle)) * maxThrottle / (1023 - centerThrottle);
+    //Multiply percentage of max throttle by throttle power allocated to motor.
+    //Throttle is limited: (throttle - centerThrottle) * partOf180MotorMax / maxJoystickDisplacement512;
+  if(yawPin < centerYaw)
+    yawFL = (yawPin - centerYaw) * maxYaw / 1023-centerYaw;
+  if(rollPin > centerRoll)
+    rollFL = (rollPin - centerRoll) * maxRoll / (1023-centerRoll);
+  if(pitchPin < centerPitch)
+    pitchFL = (centerPitch-pitchPin) * maxPitch / centerPitch;
+
+//if both thumbsticks at center, then employ auto-balance functions. Refer to gyroscope angular offsets.
+
+
+    powerFL = throttleFL + yawFL + rollFL + pitchFL;
+  return powerFL;
+}
+int fr()
+{
+  int powerFR = 0;
+  if(throttlePin > (centerThrottle)) //If center moving, add "dead zone."  +deadWidth/2))
+    throttleFR = (throttlePin - (centerThrottle)) * maxThrottle / (1023 - centerThrottle);
+    //Multiply percentage of max throttle by throttle power allocated to motor.
+    //Throttle is limited: (throttle - centerThrottle) * partOf180MotorMax / maxJoystickDisplacement512;
+  if(yawPin > centerYaw)
+    yawFR = (centerYaw-yawPin) * maxYaw / (1023-centerYaw);
+  if(rollPin < centerRoll)
+    rollFR = (centerRoll-rollPin) * maxRoll / centerRoll;
+  if(pitchPin < centerPitch)
+    pitchFR = (centerPitch - pitchPin) * maxPitch / centerPitch;
+
+//if both thumbsticks at center, then employ auto-balance functions. Refer to gyroscope angular offsets.
+
+
+  powerFR = throttleFR + yawFR + rollFR + pitchFR;
+  return powerFR;
+}
+
+int bl()
+{
+  int powerBL = 0;
+  if(throttlePin > (centerThrottle)) //If center moving, add "dead zone."  +deadWidth/2))
+    throttleBL = (throttlePin - (centerThrottle)) * maxThrottle / (1023 - centerThrottle);
+    //Multiply percentage of max throttle by throttle power allocated to motor.
+    //Throttle is limited: (throttle - centerThrottle) * partOf180MotorMax / maxJoystickDisplacement512;
+  if(yawPin > centerYaw)
+    yawBL = (centerYaw-yawPin) * maxYaw / (1023-centerYaw);
+  if(rollPin > centerRoll)
+    rollBL = (rollPin - centerRoll) * maxRoll / (1023-centerRoll);
+  if(pitchPin > centerPitch)
+    pitchBL = (pitchPin - centerPitch) * maxPitch / (1023-centerPitch);
+
+//if both thumbsticks at center, then employ auto-balance functions. Refer to gyroscope angular offsets.
+
+
+  powerBL = throttleBL + yawBL + rollBL + pitchBL;
+  return powerBL;
+}
+
+int br()
+{
+  int powerBR = 0;
+  if(throttlePin > (centerThrottle)) //If center moving, add "dead zone."  +deadWidth/2))
+    throttleBR = (throttlePin - (centerThrottle)) * maxThrottle / (1023 - centerThrottle);
+    //Multiply percentage of max throttle by throttle power allocated to motor.
+    //Throttle is limited: (throttle - centerThrottle) * partOf180MotorMax / maxJoystickDisplacement512;
+  if(yawPin < centerYaw)
+    yawBR = (yawPin-centerYaw) * maxYaw / centerYaw;
+  if(rollPin < centerRoll)
+    rollBR = (centerRoll-rollPin) * maxRoll / centerRoll;
+  if(pitchPin > centerPitch)
+    pitchBR = (pitchPin - centerPitch) * maxPitch / (1023-centerPitch);
+
+//if both thumbsticks at center, then employ auto-balance functions. Refer to gyroscope angular offsets.
+
+
+  powerBR = throttleBR + yawBR + rollBR + pitchBR;
+  return powerBR;
+}
